@@ -20,8 +20,7 @@ public class PhysicsHandler : MonoBehaviour
         }
         set
         {
-            _speed = value;
-            if (_speed.magnitude > maxSpeed)
+            if (value.magnitude > maxSpeed)
             {
                 _speed = value.normalized;
                 var sqr = Mathf.Sqrt(maxSpeed);
@@ -38,5 +37,10 @@ public class PhysicsHandler : MonoBehaviour
 
     void Update()
     {
+        Vector2 trajectory = Speed*Time.deltaTime;
+        trajectory = _collisionHandler.CorrectMovement(trajectory);
+        Vector2 position = transform.position;
+        position += trajectory;
+        transform.position = position;
     }
 }

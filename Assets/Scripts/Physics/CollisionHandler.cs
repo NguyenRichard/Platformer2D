@@ -18,14 +18,21 @@ public class CollisionHandler : MonoBehaviour
         terrainMask = LayerMask.GetMask("Terrain");
     }
     
-    public Vector2 CorrectMovement(Vector2 trajectory)
+    public Vector2 CorrectMovement(Vector2 speed)
     {
         Vector2 position = transform.position;
         for (int i = 0; i < castPoints.Length; i++)
         {
-            var cast = Physics2D.Raycast(position+castPoints[i], trajectory, trajectory.magnitude, terrainMask);
+            var cast = Physics2D.Raycast(position+castPoints[i], speed, speed.magnitude, terrainMask);
+            Debug.DrawRay(position+castPoints[i], speed, Color.blue);
+            if (cast.collider)
+            {
+                speed.Normalize();
+                var sqr = Mathf.Sqrt(cast.distance);
+                speed.Scale(new Vector2(sqr, sqr));
+            }
         }
-        return trajectory;
+        return speed;
     }
 
     private void OnDrawGizmosSelected()
