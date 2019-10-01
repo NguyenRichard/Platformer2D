@@ -9,6 +9,8 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField]
     private Vector2[] castPoints;
     private LayerMask terrainMask;
+    [SerializeField]
+    private float epsilon = 0.05f;
 
     private void Awake()
     {
@@ -18,21 +20,31 @@ public class CollisionHandler : MonoBehaviour
         terrainMask = LayerMask.GetMask("Terrain");
     }
     
-    public Vector2 CorrectMovement(Vector2 speed)
+    public bool CorrectMovement(ref Vector2 trajectory)
+    
     {
         Vector2 position = transform.position;
+        float min_distance = trajectory.magnitude;
         for (int i = 0; i < castPoints.Length; i++)
         {
-            var cast = Physics2D.Raycast(position+castPoints[i], speed, speed.magnitude, terrainMask);
-            Debug.DrawRay(position+castPoints[i], speed, Color.blue);
+            var cast = Physics2D.Raycast(position+castPoints[i], trajectory, trajectory.magnitude, terrainMask);
+            Debug.DrawRay(position+castPoints[i], trajectory, Color.red);
             if (cast.collider)
             {
-                speed.Normalize();
-                var sqr = Mathf.Sqrt(cast.distance);
-                speed.Scale(new Vector2(sqr, sqr));
+                if (cast.distance < min_distance)
+                    min_distance = cast.distance;
             }
         }
-        return speed;
+
+        if (min_distance < trajectory.magnitude)
+        {
+            trajectory.Normalize();
+            var sqr = Mathf.Sqrt(min_distance);
+            trajectory.Scale(new Vector2(sqr-epsilon, sqr-epsilon));
+            return true;
+        }
+
+        return false;
     }
 
     private void OnDrawGizmosSelected()
