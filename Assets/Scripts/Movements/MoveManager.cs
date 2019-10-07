@@ -14,6 +14,14 @@ public class MoveManager : MonoBehaviour
     private float jump_duration; //in physic
 
     private bool isGrounded = true; //in physic
+    
+    private bool isJumping = true;
+    public bool IsJumping
+    {
+        get { return this.isJumping; }
+
+        set { this.isJumping = value; }
+    }
 
     private int jump_count = 0;
 
@@ -53,7 +61,7 @@ public class MoveManager : MonoBehaviour
     IEnumerator JumpLoop()
     {
         float jumpEnd = Time.time + jump_duration;
-        while(Time.time < jumpEnd)
+        while(Time.time < jumpEnd && isJumping)
         {
             speed = new Vector2(speed.x, jump_speed);
             yield return null;
