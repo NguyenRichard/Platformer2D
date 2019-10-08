@@ -13,7 +13,8 @@ public class MoveManager : MonoBehaviour
     [SerializeField]
     private float jump_duration; //in physic
 
-    private bool isGrounded = true; //in physic
+    [SerializeField]
+    private GroundDetection groundDetector;
     
     private bool isJumping = true;
     public bool IsJumping
@@ -35,7 +36,7 @@ public class MoveManager : MonoBehaviour
 
     public void UpdateHorizontalSpeed(float speedRatio)
     {
-        if (!isGrounded)
+        if (!groundDetector.IsGrounded)
         {
             return;
         }
@@ -49,13 +50,12 @@ public class MoveManager : MonoBehaviour
 
     public void Jump()
     {
-        if ( !isGrounded && !isJumping)
+        if (!groundDetector.IsGrounded)
         {
             return;
         }
 
         StartCoroutine(JumpLoop());
-        isGrounded = false; //in physic
     }
 
     IEnumerator JumpLoop()
@@ -82,7 +82,6 @@ public class MoveManager : MonoBehaviour
         if(transform.position.y < 0.01)
         {
             Speed = new Vector2(Speed[0], 0);
-            isGrounded = true;
         }
     }
 }
