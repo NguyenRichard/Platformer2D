@@ -49,7 +49,7 @@ public class MoveManager : MonoBehaviour
 
     public void Jump()
     {
-        if (!isGrounded)
+        if ( !isGrounded && !isJumping)
         {
             return;
         }
@@ -61,17 +61,28 @@ public class MoveManager : MonoBehaviour
     IEnumerator JumpLoop()
     {
         float jumpEnd = Time.time + jump_duration;
+        isJumping = true;
         while(Time.time < jumpEnd && isJumping)
         {
             speed = new Vector2(speed.x, jump_speed);
             yield return null;
         }
         speed.y = 0;
+        isJumping = false;
     }
 
     private void Update()
     {
+        if (transform.position.y > 0.01)
+        {
+            Speed += new Vector2(0, -transform.position.y*jump_speed);
+        }
         //Update physicHandler;
         transform.position = transform.position + new Vector3(Speed[0] * Time.fixedDeltaTime, Speed[1] * Time.fixedDeltaTime, transform.position[2]); //in physic
+        if(transform.position.y < 0.01)
+        {
+            Speed = new Vector2(Speed[0], 0);
+            isGrounded = true;
+        }
     }
 }
