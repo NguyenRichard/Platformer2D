@@ -11,24 +11,7 @@ public class PhysicsHandler : MonoBehaviour
     private float maxSpeed = 5;
 
     [SerializeField]
-    private Vector2 _speed;
-    public Vector2 Speed
-    {
-        get
-        {
-            return _speed;
-        }
-        set
-        {
-            _speed = value;
-            if (_speed.magnitude > maxSpeed)
-            {
-                _speed = value.normalized;
-                var sqr = Mathf.Sqrt(maxSpeed);
-                _speed.Scale(new Vector2(sqr, sqr));
-            }
-        }
-    }
+    private float horizontalSpeed;
 
     private void Awake()
     {
@@ -38,13 +21,15 @@ public class PhysicsHandler : MonoBehaviour
 
     void Update()
     {
-        Vector2 trajectory = Speed*Time.fixedDeltaTime;
-        if (_collisionHandler.CorrectMovement(ref trajectory))
+        float horizontalTrajectory = horizontalSpeed*Time.fixedDeltaTime;
+        Debug.DrawRay(transform.position, new Vector2(horizontalTrajectory,0), Color.red);
+        if (_collisionHandler.CorrectHorizontalMovement(horizontalTrajectory))
         {
-            Speed = Vector2.zero;
+            horizontalSpeed = 0;
         }
+        Debug.DrawRay(transform.position, new Vector2(horizontalTrajectory, 0), Color.blue);
         Vector2 position = transform.position;
-        position += trajectory;
+        position += new Vector2(horizontalTrajectory, 0);
         transform.position = position;
     }
 }
