@@ -7,7 +7,7 @@ public class CollisionHandler : MonoBehaviour
 {
     private Rigidbody2D _rigidbody2D;
     [SerializeField]
-    private Vector2[] castPoints;
+    private Vector2[] castHorizontalPoints;
     private LayerMask terrainMask;
     [SerializeField]
     private float epsilon = 0.05f;
@@ -20,40 +20,35 @@ public class CollisionHandler : MonoBehaviour
         terrainMask = LayerMask.GetMask("Terrain");
     }
     
-    public bool CorrectMovement(ref Vector2 trajectory)
+    public bool CorrectHorizontalMovement(float horizontalTrajectory)
     
     {
         Vector2 position = transform.position;
-        float min_distance = trajectory.magnitude;
-        for (int i = 0; i < castPoints.Length; i++)
+        bool hasChanged = false;
+
+        for (int i = 0; i < castHorizontalPoints.Length; i++)
         {
-            var cast = Physics2D.Raycast(position+castPoints[i], trajectory, trajectory.magnitude, terrainMask);
-            Debug.DrawRay(position+castPoints[i], trajectory, Color.red);
+            var cast = Physics2D.Raycast(position + castHorizontalPoints[i], new Vector2(horizontalTrajectory, 0),
+                Math.Abs(horizontalTrajectory), terrainMask);
             if (cast.collider)
             {
-                if (cast.distance < min_distance)
-                    min_distance = cast.distance;
+                if (cast.distance < horizontalTrajectory)
+                {
+                    horizontalTrajectory = cast.distance;
+                    hasChanged = true;
+                }
             }
         }
-
-        if (min_distance < trajectory.magnitude)
-        {
-            trajectory.Normalize();
-            var sqr = Mathf.Sqrt(min_distance);
-            trajectory.Scale(new Vector2(sqr-epsilon, sqr-epsilon));
-            return true;
-        }
-
-        return false;
+        return hasChanged;
     }
 
     private void OnDrawGizmosSelected()
     {
         Vector2 position = transform.position;
-        for (int i = 0; i < castPoints.Length; i++)
+        for (int i = 0; i < castHorizontalPoints.Length; i++)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawCube(position+castPoints[i], new Vector3(0.1f,0.1f));
+            Gizmos.DrawCube(position+castHorizontalPoints[i], new Vector3(0.1f,0.1f));
         }
     }
 }
