@@ -30,11 +30,12 @@ public class CollisionHandler : MonoBehaviour
         {
             var cast = Physics2D.Raycast(position + castHorizontalPoints[i], new Vector2(horizontalTrajectory, 0),
                 Math.Abs(horizontalTrajectory), terrainMask);
+
             if (cast.collider)
             {
-                if (cast.distance < horizontalTrajectory)
+                if (cast.distance < Math.Abs(horizontalTrajectory))
                 {
-                    horizontalTrajectory = cast.distance;
+                 //   horizontalTrajectory = cast.distance;
                     hasChanged = true;
                 }
             }
