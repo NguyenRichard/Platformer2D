@@ -25,6 +25,10 @@ public class InputController : MonoBehaviour
         {
             moveManager.Jump();
         }
+        else if (Input.GetButtonUp("Jump"))
+        {
+            moveManager.CancelJump();
+        }
         /*
         else if (Input.GetButtonUp("Jump"))
         {

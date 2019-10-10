@@ -7,6 +7,7 @@ public class GroundDetection : MonoBehaviour
 {
     [SerializeField]
     private float _height;
+
     [SerializeField]
     private float _epsilonWidth;
     private bool isGrounded = false;
@@ -14,6 +15,10 @@ public class GroundDetection : MonoBehaviour
     {
         get { return isGrounded;  }
     }
+
+    public delegate void LandAction();
+    public static event LandAction OnLand;
+
 
     private void Awake()
     {
@@ -28,6 +33,7 @@ public class GroundDetection : MonoBehaviour
     {
         Debug.Log("Land !");
         isGrounded = true;
+        OnLand?.Invoke();
     }
 
     private void OnTriggerExit2D(Collider2D collision)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MoveManager : MonoBehaviour
 {
@@ -40,32 +41,58 @@ public class MoveManager : MonoBehaviour
         Debug.Assert(_physicsHandler, "You must add a PhysicsHandler !");
     }
 
+    private void OnEnable()
+    {
+        GroundDetection.OnLand += OnLand;
+    }
+
+    private void OnDisable()
+    {
+        GroundDetection.OnLand -= OnLand;
+    }
+
     public void UpdateHorizontalSpeed(float speedRatio)
     {
-        if (!groundDetector.IsGrounded)
-        {
-            return;
-        }
-        if(speedRatio < -1 || speedRatio > 1)
+        if (speedRatio < -1 || speedRatio > 1)
         {
             Debug.Log("The input of UpdateSpeed must between -1 and 1.");
             return;
         }
-        speed[0] = final_horizontal_speed * speedRatio;
+        float airControlFactor = 1;
+        if (!groundDetector.IsGrounded)
+        {
+            airControlFactor = 0.5f;
+        }
+        speed[0] = final_horizontal_speed * airControlFactor * speedRatio;
         _physicsHandler.horizontalSpeed = speed.x;
     }
 
     public void Jump()
     {
-        if (!groundDetector.IsGrounded)
+        if (CanJump())
         {
             return;
         }
         speed.y = jump_speed;
         _physicsHandler.verticalSpeed = speed.y;
+        jump_count++;
     }
 
-    private void Update()
+    public void CancelJump()
     {
+        if(_physicsHandler.verticalSpeed > 0)
+        {
+            speed.y = _physicsHandler.verticalSpeed/2;
+            _physicsHandler.verticalSpeed = speed.y;
+        }
+    }
+
+    private bool CanJump()
+    {
+        return jump_count >= 2;
+    }
+
+    private void OnLand() {
+        jump_count = 0;
     }
 }
