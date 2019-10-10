@@ -23,7 +23,7 @@ public class PhysicsHandler : MonoBehaviour
     {
         float horizontalTrajectory = horizontalSpeed*Time.fixedDeltaTime;
         Debug.DrawRay(transform.position, new Vector2(horizontalTrajectory,0), Color.red);
-        if (_collisionHandler.CorrectHorizontalMovement(horizontalTrajectory))
+        if (_collisionHandler.CorrectHorizontalMovement(ref horizontalTrajectory))
         {
             horizontalSpeed = 0;
         }
