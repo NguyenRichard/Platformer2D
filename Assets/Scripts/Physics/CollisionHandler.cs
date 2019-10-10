@@ -17,7 +17,7 @@ public class CollisionHandler : MonoBehaviour
         _boxCollider2D = GetComponent<BoxCollider2D>();
         Debug.Assert(_rigidbody2D != null, "You must add a Rigidbody2D to the object");
         Debug.Assert(_rigidbody2D.isKinematic, "The Rigidbody2D must be Kinematic !");
-        terrainMask = LayerMask.GetMask("Terrain");
+        terrainMask = LayerMask.GetMask("Ground");
     }
     
     public bool CorrectHorizontalMovement(ref float horizontalTrajectory)

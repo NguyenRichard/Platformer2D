@@ -11,9 +11,9 @@ public class PhysicsHandler : MonoBehaviour
     private float maxSpeed = 5;
 
     [SerializeField]
-    private float horizontalSpeed;
+    public float horizontalSpeed;
     [SerializeField]
-    private float verticalSpeed;
+    public float verticalSpeed;
     [SerializeField]
     private float verticalAcceleration;
 

@@ -25,6 +25,7 @@ public class InputController : MonoBehaviour
         {
             moveManager.Jump();
         }
+        /*
         else if (Input.GetButtonUp("Jump"))
         {
             if (moveManager.IsJumping)
@@ -32,5 +33,6 @@ public class InputController : MonoBehaviour
                 moveManager.IsJumping = false;
             }
         }
+        */
     }
 }

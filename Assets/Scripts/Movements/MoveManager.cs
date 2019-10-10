@@ -1,22 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveManager : MonoBehaviour
 {
-    [SerializeField]
-    private float final_horizontal_speed; //in physic
+    private PhysicsHandler _physicsHandler;
 
     [SerializeField]
-    private float jump_speed; //in physic
-
+    private float jump_speed = 5;
     [SerializeField]
-    private float jump_duration; //in physic
+    private float final_horizontal_speed = 3;
 
     [SerializeField]
     private GroundDetection groundDetector;
     
     private bool isJumping = true;
+
     public bool IsJumping
     {
         get { return this.isJumping; }
@@ -34,6 +34,12 @@ public class MoveManager : MonoBehaviour
         set { this.speed = value; }
     }
 
+    private void Awake()
+    {
+        _physicsHandler = GetComponent<PhysicsHandler>();
+        Debug.Assert(_physicsHandler, "You must add a PhysicsHandler !");
+    }
+
     public void UpdateHorizontalSpeed(float speedRatio)
     {
         if (!groundDetector.IsGrounded)
@@ -46,6 +52,7 @@ public class MoveManager : MonoBehaviour
             return;
         }
         speed[0] = final_horizontal_speed * speedRatio;
+        _physicsHandler.horizontalSpeed = speed.x;
     }
 
     public void Jump()
@@ -54,34 +61,11 @@ public class MoveManager : MonoBehaviour
         {
             return;
         }
-
-        StartCoroutine(JumpLoop());
-    }
-
-    IEnumerator JumpLoop()
-    {
-        float jumpEnd = Time.time + jump_duration;
-        isJumping = true;
-        while(Time.time < jumpEnd && isJumping)
-        {
-            speed = new Vector2(speed.x, jump_speed);
-            yield return null;
-        }
-        speed.y = 0;
-        isJumping = false;
+        speed.y = jump_speed;
+        _physicsHandler.verticalSpeed = speed.y;
     }
 
     private void Update()
     {
-        if (transform.position.y > 0.01)
-        {
-            Speed += new Vector2(0, -transform.position.y*jump_speed);
-        }
-        //Update physicHandler;
-        transform.position = transform.position + new Vector3(Speed[0] * Time.fixedDeltaTime, Speed[1] * Time.fixedDeltaTime, transform.position[2]); //in physic
-        if(transform.position.y < 0.01)
-        {
-            Speed = new Vector2(Speed[0], 0);
-        }
     }
 }
