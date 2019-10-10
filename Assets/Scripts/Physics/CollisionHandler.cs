@@ -9,7 +9,7 @@ public class CollisionHandler : MonoBehaviour
     private BoxCollider2D _boxCollider2D;
     private LayerMask terrainMask;
     [SerializeField]
-    private float epsilon = 0.05f;
+    private float epsilon = 0.01f;
 
     private void Awake()
     {
@@ -21,7 +21,6 @@ public class CollisionHandler : MonoBehaviour
     }
     
     public bool CorrectHorizontalMovement(ref float horizontalTrajectory)
-    
     {
         Vector2 position = transform.position;
 
@@ -29,7 +28,21 @@ public class CollisionHandler : MonoBehaviour
             Math.Abs(horizontalTrajectory), terrainMask);
         if (boxCast.collider && boxCast.distance < Math.Abs(horizontalTrajectory))
         {
-            horizontalTrajectory = Math.Sign(horizontalTrajectory) * boxCast.distance;
+            horizontalTrajectory = Math.Sign(horizontalTrajectory) * (boxCast.distance-epsilon);
+            return true;
+        }
+        return false;
+    }
+    
+    public bool CorrectVerticalMovement(ref float verticalTrajectory)
+    {
+        Vector2 position = transform.position;
+
+        var boxCast = Physics2D.BoxCast(position, _boxCollider2D.size, 0, new Vector2(0, verticalTrajectory),
+            Math.Abs(verticalTrajectory), terrainMask);
+        if (boxCast.collider && boxCast.distance < Math.Abs(verticalTrajectory))
+        {
+            verticalTrajectory = Math.Sign(verticalTrajectory) * (boxCast.distance-epsilon);
             return true;
         }
         return false;
