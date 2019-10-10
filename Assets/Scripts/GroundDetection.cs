@@ -9,7 +9,7 @@ public class GroundDetection : MonoBehaviour
     private float _height;
     [SerializeField]
     private float _epsilonWidth;
-    private bool isGrounded = true;
+    private bool isGrounded = false;
     public bool IsGrounded
     {
         get { return isGrounded;  }

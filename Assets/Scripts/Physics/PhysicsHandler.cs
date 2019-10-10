@@ -6,6 +6,7 @@ using UnityEngine;
 public class PhysicsHandler : MonoBehaviour
 {
     private CollisionHandler _collisionHandler;
+    private GroundDetection _groundDetection;
     
     [SerializeField]
     private float maxSpeed = 5;
@@ -20,7 +21,9 @@ public class PhysicsHandler : MonoBehaviour
     private void Awake()
     {
         _collisionHandler = GetComponent<CollisionHandler>();
+        _groundDetection = GetComponentInChildren<GroundDetection>();
         Debug.Assert(_collisionHandler != null);
+        Debug.Assert(_groundDetection != null);
         horizontalSpeed = 0;
         verticalAcceleration = 0;
         verticalSpeed = 0;
@@ -30,6 +33,10 @@ public class PhysicsHandler : MonoBehaviour
     {
         float horizontalTrajectory = horizontalSpeed*Time.fixedDeltaTime;
         verticalSpeed = verticalAcceleration * Time.fixedDeltaTime + verticalSpeed;
+        if (!_groundDetection.IsGrounded)
+        {
+            verticalSpeed += Physics2D.gravity.y * Time.deltaTime;
+        }
         float verticalTrajectory = verticalSpeed * Time.fixedDeltaTime;
         Debug.DrawRay(transform.position, new Vector2(horizontalTrajectory,0), Color.red);
         if (_collisionHandler.CorrectHorizontalMovement(ref horizontalTrajectory))
