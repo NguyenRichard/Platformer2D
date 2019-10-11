@@ -8,15 +8,11 @@ public class MoveManager : MonoBehaviour
 {
     private PhysicsHandler _physicsHandler;
 
-    [SerializeField]
-    private float jump_speed = 5;
-    [SerializeField]
-    private float final_horizontal_speed = 3;
+    private float jump_impulsion_speed;
+    private float max_horizontal_speed;
 
-    [SerializeField]
     private GroundDetection groundDetector;
 
-    [SerializeField]
     private float coyoteTimeDoubleJump;
     
     private bool isJumping = false;
@@ -40,8 +36,13 @@ public class MoveManager : MonoBehaviour
 
     private void Awake()
     {
+        jump_impulsion_speed = ControlParameters.Instance.JumpImpulsionSpeed;
+        max_horizontal_speed = ControlParameters.Instance.MaxHorizontalSpeed;
+        coyoteTimeDoubleJump = ControlParameters.Instance.CoyoteTimeDoubleJump;
         _physicsHandler = GetComponent<PhysicsHandler>();
         Debug.Assert(_physicsHandler, "You must add a PhysicsHandler !");
+        groundDetector = GetComponentInChildren<GroundDetection>();
+        Debug.Assert(groundDetector, "You must add a GroundDetector !");
     }
 
     private void OnEnable()
@@ -73,7 +74,7 @@ public class MoveManager : MonoBehaviour
         {
             airControlFactor = 0.5f;
         }
-        speed[0] = final_horizontal_speed * airControlFactor * speedRatio;
+        speed[0] = max_horizontal_speed * airControlFactor * speedRatio;
         _physicsHandler.horizontalSpeed = speed.x;
     }
 
@@ -83,7 +84,7 @@ public class MoveManager : MonoBehaviour
         {
             return;
         }
-        speed.y = jump_speed;
+        speed.y = jump_impulsion_speed;
         _physicsHandler.verticalSpeed = speed.y;
         jump_count++;
         isJumping = true;

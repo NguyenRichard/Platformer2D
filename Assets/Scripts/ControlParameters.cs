@@ -60,4 +60,34 @@ public class ControlParameters : MonoBehaviour
             return wallDetection_epsilonWidth;
         }
     }
+
+    [SerializeField]
+    private float jumpImpulsionSpeed;
+    public float JumpImpulsionSpeed
+    {
+        get
+        {
+            return jumpImpulsionSpeed;
+        }
+    }
+
+    [SerializeField]
+    private float maxHorizontalSpeed;
+    public float MaxHorizontalSpeed
+    {
+        get
+        {
+            return maxHorizontalSpeed;
+        }
+    }
+
+    [SerializeField]
+    private float coyoteTimeDoubleJump;
+    public float CoyoteTimeDoubleJump
+    {
+        get
+        {
+            return coyoteTimeDoubleJump;
+        }
+    }
 }

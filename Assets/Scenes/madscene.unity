@@ -367,6 +367,9 @@ MonoBehaviour:
   groundDetection_epsilonWidth: 0.05
   wallDetection_height: 0.02
   wallDetection_epsilonWidth: 0.05
+  jumpImpulsionSpeed: 10
+  maxHorizontalSpeed: 6
+  coyoteTimeDoubleJump: 0.1
 --- !u!4 &326950566
 Transform:
   m_ObjectHideFlags: 0
@@ -602,10 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8de544f290850943b7c6b5e326813c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump_speed: 10
-  final_horizontal_speed: 6
   groundDetector: {fileID: 496634876}
-  coyoteTimeDoubleJump: 0
 --- !u!114 &508030576
 MonoBehaviour:
   m_ObjectHideFlags: 0
