@@ -19,7 +19,6 @@ public class InputController : MonoBehaviour
     void Update()
     {
         float posX = Input.GetAxis("Horizontal");
-        Debug.Log(posX);
         moveManager.UpdateHorizontalSpeed(posX);
 
         if (Input.GetButtonDown("Jump"))
