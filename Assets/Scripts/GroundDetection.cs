@@ -19,6 +19,9 @@ public class GroundDetection : MonoBehaviour
     public delegate void LandAction();
     public static event LandAction OnLand;
 
+    public delegate void LeaveGroundAction();
+    public static event LeaveGroundAction OnLeaveGround;
+
 
     private void Awake()
     {
@@ -31,15 +34,14 @@ public class GroundDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Land !");
         isGrounded = true;
         OnLand?.Invoke();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Jump !");
         isGrounded = false;
+        OnLeaveGround?.Invoke();
     }
 
 }
