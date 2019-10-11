@@ -19,11 +19,11 @@ public class WallDetection : MonoBehaviour
     {
         var playerCollider = GetComponentInParent<BoxCollider2D>();
         var boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
+        _height = ControlParameters.Instance.WallDetection_height;
+        _epsilonWidth = ControlParameters.Instance.WallDetection_epsilonWidth;
         boxCollider2D.size = new Vector2(playerCollider.size.x + 2*_height + 2*_epsilonWidth, playerCollider.size.y - _epsilonWidth);
         boxCollider2D.isTrigger = true;
 
-        _height = ControlParameters.Instance.WallDetection_height;
-        _epsilonWidth = ControlParameters.Instance.WallDetection_epsilonWidth;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

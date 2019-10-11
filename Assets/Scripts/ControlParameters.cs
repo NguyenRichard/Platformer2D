@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ControlParameters : MonoBehaviour
 {
@@ -8,14 +10,18 @@ public class ControlParameters : MonoBehaviour
 
     public static ControlParameters Instance
     {
-        get
+        get { return instance; }
+    }
+
+    private void Awake()
+    {
+        if (instance != null)
         {
-            if (instance == null)
-            {
-                instance = new ControlParameters();
-            }
-            return instance;
+            Debug.LogWarning("There is several instances of ControlParameters in the scene !");
+            return;
         }
+
+        instance = this;
     }
 
     [SerializeField]
