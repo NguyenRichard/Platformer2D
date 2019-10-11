@@ -74,7 +74,7 @@ public class MoveManager : MonoBehaviour
             airControlFactor = 0.5f;
         }
         speed[0] = final_horizontal_speed * airControlFactor * speedRatio;
-        _physicsHandler.horizontalSpeed = speed.x;
+        _physicsHandler.HorizontalSpeed = speed.x;
     }
 
     public void Jump()
@@ -84,17 +84,17 @@ public class MoveManager : MonoBehaviour
             return;
         }
         speed.y = jump_speed;
-        _physicsHandler.verticalSpeed = speed.y;
+        _physicsHandler.VerticalSpeed = speed.y;
         jump_count++;
         isJumping = true;
     }
 
     public void CancelJump()
     {
-        if(_physicsHandler.verticalSpeed > 0)
+        if(_physicsHandler.VerticalSpeed > 0)
         {
-            speed.y = _physicsHandler.verticalSpeed/2;
-            _physicsHandler.verticalSpeed = speed.y;
+            speed.y = _physicsHandler.VerticalSpeed/2;
+            _physicsHandler.VerticalSpeed = speed.y;
         }
     }
 
