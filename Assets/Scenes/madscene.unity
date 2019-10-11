@@ -340,8 +340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8de544f290850943b7c6b5e326813c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump_speed: 5
-  final_horizontal_speed: 3
+  jump_speed: 10
+  final_horizontal_speed: 5
   groundDetector: {fileID: 496634876}
 --- !u!114 &508030576
 MonoBehaviour:

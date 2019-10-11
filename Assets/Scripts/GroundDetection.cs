@@ -13,7 +13,7 @@ public class GroundDetection : MonoBehaviour
     private bool isGrounded = false;
     public bool IsGrounded
     {
-        get { return isGrounded;  }
+        get { return isGrounded; }
     }
 
     public delegate void LandAction();
@@ -31,14 +31,12 @@ public class GroundDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Land !");
         isGrounded = true;
         OnLand?.Invoke();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Jump !");
         isGrounded = false;
     }
 
