@@ -12,11 +12,13 @@ public class PhysicsHandler : MonoBehaviour
     private float maxSpeed = 5;
 
     [SerializeField]
-    public float horizontalSpeed;
+    public float horizontalSpeed = 0;
     [SerializeField]
-    public float verticalSpeed;
+    public float verticalSpeed = 0;
     [SerializeField]
-    private float verticalAcceleration;
+    private float verticalAcceleration = 0;
+    [SerializeField]
+    private float descendingGravityModifier = 2f;
 
     private void Awake()
     {
@@ -24,9 +26,6 @@ public class PhysicsHandler : MonoBehaviour
         _groundDetection = GetComponentInChildren<GroundDetection>();
         Debug.Assert(_collisionHandler != null);
         Debug.Assert(_groundDetection != null);
-        horizontalSpeed = 0;
-        verticalAcceleration = 0;
-        verticalSpeed = 0;
     }
 
     void Update()
@@ -35,10 +34,9 @@ public class PhysicsHandler : MonoBehaviour
         verticalSpeed = verticalAcceleration * Time.fixedDeltaTime + verticalSpeed;
         if (!_groundDetection.IsGrounded)
         {
-            verticalSpeed += Physics2D.gravity.y * Time.deltaTime;
+            verticalSpeed += (verticalSpeed < 0 ? 2f : 1f)*Physics2D.gravity.y * Time.deltaTime;
         }
         float verticalTrajectory = verticalSpeed * Time.fixedDeltaTime;
-        Debug.DrawRay(transform.position, new Vector2(horizontalTrajectory,0), Color.red);
         if (_collisionHandler.CorrectHorizontalMovement(ref horizontalTrajectory))
         {
             horizontalSpeed = 0;
@@ -48,7 +46,6 @@ public class PhysicsHandler : MonoBehaviour
             verticalAcceleration = 0;
             verticalSpeed = 0;
         }
-        Debug.DrawRay(transform.position, new Vector2(horizontalTrajectory, 0), Color.blue);
         Vector2 position = transform.position;
         position += new Vector2(horizontalTrajectory, verticalTrajectory);
         transform.position = position;

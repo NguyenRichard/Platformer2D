@@ -11,7 +11,7 @@ public class GroundDetection : MonoBehaviour
     private bool isGrounded = false;
     public bool IsGrounded
     {
-        get { return isGrounded;  }
+        get { return isGrounded; }
     }
 
     public delegate void LandAction();
