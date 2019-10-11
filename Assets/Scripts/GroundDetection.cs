@@ -5,10 +5,8 @@ using UnityEngine;
 
 public class GroundDetection : MonoBehaviour
 {
-    [SerializeField]
     private float _height;
 
-    [SerializeField]
     private float _epsilonWidth;
     private bool isGrounded = false;
     public bool IsGrounded
@@ -30,6 +28,9 @@ public class GroundDetection : MonoBehaviour
         boxCollider2D.size = new Vector2(playerCollider.size.x-_epsilonWidth, _height);
         boxCollider2D.offset = new Vector2(0, -playerCollider.size.y/2-_epsilonWidth/2);
         boxCollider2D.isTrigger = true;
+
+        _height = ControlParameters.Instance.GroundDetection_height;
+        _epsilonWidth = ControlParameters.Instance.GroundDetection_epsilonWidth;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class WallDetection : MonoBehaviour
 {
-    [SerializeField]
     private float _height;
 
-    [SerializeField]
     private float _epsilonWidth;
 
     public delegate void WallEncounterAction();
@@ -23,6 +21,9 @@ public class WallDetection : MonoBehaviour
         var boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
         boxCollider2D.size = new Vector2(playerCollider.size.x + 2*_height + 2*_epsilonWidth, playerCollider.size.y - _epsilonWidth);
         boxCollider2D.isTrigger = true;
+
+        _height = ControlParameters.Instance.WallDetection_height;
+        _epsilonWidth = ControlParameters.Instance.WallDetection_epsilonWidth;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
