@@ -15,8 +15,11 @@ public class MoveManager : MonoBehaviour
 
     [SerializeField]
     private GroundDetection groundDetector;
+
+    [SerializeField]
+    private float coyoteTimeDoubleJump;
     
-    private bool isJumping = true;
+    private bool isJumping = false;
 
     public bool IsJumping
     {
@@ -43,12 +46,19 @@ public class MoveManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GroundDetection.OnLand += OnLand;
+        GroundDetection.OnLand += OnLandGround;
+        GroundDetection.OnLeaveGround += OnLeaveSurface;
+        WallDetection.OnWallEncounter += OnWallEncounter;
+        WallDetection.OnLeaveWall += OnLeaveSurface;
+
     }
 
     private void OnDisable()
     {
-        GroundDetection.OnLand -= OnLand;
+        GroundDetection.OnLand -= OnLandGround;
+        GroundDetection.OnLeaveGround -= OnLeaveSurface;
+        WallDetection.OnWallEncounter -= OnWallEncounter;
+        WallDetection.OnLeaveWall -= OnLeaveSurface;
     }
 
     public void UpdateHorizontalSpeed(float speedRatio)
@@ -76,6 +86,7 @@ public class MoveManager : MonoBehaviour
         speed.y = jump_speed;
         _physicsHandler.verticalSpeed = speed.y;
         jump_count++;
+        isJumping = true;
     }
 
     public void CancelJump()
@@ -92,7 +103,28 @@ public class MoveManager : MonoBehaviour
         return jump_count >= 2;
     }
 
-    private void OnLand() {
+    private void OnLandGround() {
         jump_count = 0;
+        isJumping = false;
+    }
+
+    private void OnLeaveSurface()
+    {
+        StartCoroutine(DoubleJumPCoyoteTime());
+    }
+
+    IEnumerator DoubleJumPCoyoteTime()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (!isJumping)
+        {
+            jump_count = 1;
+        }
+    }
+
+    private void OnWallEncounter()
+    {
+        jump_count = 1;
+        isJumping = false;
     }
 }
