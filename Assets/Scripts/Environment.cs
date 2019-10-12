@@ -24,8 +24,8 @@ public class Environment : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        _physicsHandler.environmentAccelerationModifiers.Append(accelerationModifier);
-        _physicsHandler.environmentSpeedModifiers.Append(speedModifier);
+        _physicsHandler.environmentAccelerationModifiers.Add(accelerationModifier);
+        _physicsHandler.environmentSpeedModifiers.Add(speedModifier);
     }
 
     private void OnTriggerExit2D(Collider2D other)
