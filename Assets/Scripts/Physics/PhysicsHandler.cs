@@ -43,7 +43,7 @@ public class PhysicsHandler : MonoBehaviour
     {
         if (!_groundDetection.IsGrounded)
         {
-            acceleration.y += (VerticalSpeed < 0 ? descendingGravityModifier : 1f)*Physics2D.gravity.y;
+            acceleration.y = (VerticalSpeed < 0 ? descendingGravityModifier : 1f)*Physics2D.gravity.y;
             for (int i = 0; i < environmentAccelerationModifiers.Count; i++)
             {
                 acceleration += environmentAccelerationModifiers[i];
