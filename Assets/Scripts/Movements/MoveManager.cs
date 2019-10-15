@@ -8,8 +8,15 @@ public class MoveManager : MonoBehaviour
 {
     private PhysicsHandler _physicsHandler;
 
+    public delegate void JumpAction();
+    public static event JumpAction OnJump;
+
     private float jump_impulsion_speed;
     private float max_horizontal_speed;
+    public float Max_horizontal_speed
+    {
+        get { return max_horizontal_speed; }
+    }
 
     private GroundDetection groundDetector;
 
@@ -88,6 +95,7 @@ public class MoveManager : MonoBehaviour
         _physicsHandler.VerticalSpeed = speed.y;
         jump_count++;
         isJumping = true;
+        OnJump?.Invoke();
     }
 
     public void CancelJump()
