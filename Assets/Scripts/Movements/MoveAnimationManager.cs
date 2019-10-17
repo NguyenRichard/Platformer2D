@@ -11,6 +11,8 @@ public class MoveAnimationManager : MonoBehaviour
     private ParticleSystem stepParticlesSys;
     private BoxCollider2D playerCollider;
 
+    private Animator anim;
+
     [SerializeField]
     private GameObject jumpParticlePrefab;
 
@@ -28,8 +30,11 @@ public class MoveAnimationManager : MonoBehaviour
         Debug.Assert(jumpParticlePrefab, "You must add a jumParticlePrefab");
 
 
-        playerCollider = gameObject.GetComponent<BoxCollider2D>();
+        playerCollider = GetComponent<BoxCollider2D>();
         Debug.Assert(playerCollider, "You must add a BoxCollider2D to the gameObject.");
+
+        anim = GetComponentInChildren<Animator>();
+        Debug.Assert(anim, "You must add an Animator in the player");
 
         stepParticlesSys.Stop();
     }
@@ -91,14 +96,13 @@ public class MoveAnimationManager : MonoBehaviour
                 shape.rotation = new Vector3(0, 65, 0);
                 shape.position = new Vector3(0.3f, 0, 0);
             }
-            //main.startSpeedMultiplier = Mathf.Abs(moveManager.Speed.x)/moveManager.Max_horizontal_speed;
-            Debug.Log(main.startSpeedMultiplier);
 
         }
     }
 
     private void JumpEffect()
     {
+        anim.SetTrigger("jump");
         var jumpParticles = Instantiate(jumpParticlePrefab, transform.position - new Vector3(0,-playerCollider.size.y/2), transform.rotation);
         jumpParticles.transform.localScale = new Vector2(0.8f, 0.8f);
     }
