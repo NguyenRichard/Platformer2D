@@ -370,6 +370,8 @@ MonoBehaviour:
   jumpImpulsionSpeed: 10
   maxHorizontalSpeed: 6
   coyoteTimeDoubleJump: 0.1
+  collisionEpsilon: 0.01
+  descendingGravityModifier: 2
 --- !u!4 &326950566
 Transform:
   m_ObjectHideFlags: 0
@@ -523,7 +525,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 0}
   acceleration: {x: 0, y: 0}
-  descendingGravityModifier: 2
   environmentAccelerationModifiers: []
   environmentSpeedModifiers: []
 --- !u!114 &508030573
@@ -538,7 +539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa07e61eb31544d45b56041e934bee7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  epsilon: 0.05
 --- !u!50 &508030574
 Rigidbody2D:
   serializedVersion: 4

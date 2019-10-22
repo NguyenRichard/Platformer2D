@@ -43,9 +43,7 @@ public class MoveManager : MonoBehaviour
 
     private void Awake()
     {
-        jump_impulsion_speed = ControlParameters.Instance.JumpImpulsionSpeed;
-        max_horizontal_speed = ControlParameters.Instance.MaxHorizontalSpeed;
-        coyoteTimeDoubleJump = ControlParameters.Instance.CoyoteTimeDoubleJump;
+        UpdateParameters();
         _physicsHandler = GetComponent<PhysicsHandler>();
         Debug.Assert(_physicsHandler, "You must add a PhysicsHandler !");
         groundDetector = GetComponentInChildren<GroundDetection>();
@@ -56,8 +54,11 @@ public class MoveManager : MonoBehaviour
     {
         GroundDetection.OnLand += OnLandGround;
         GroundDetection.OnLeaveGround += OnLeaveSurface;
+
         WallDetection.OnWallEncounter += OnWallEncounter;
         WallDetection.OnLeaveWall += OnLeaveSurface;
+
+        ControlParameters.OnUpdatedParam += UpdateParameters;
 
     }
 
@@ -65,8 +66,11 @@ public class MoveManager : MonoBehaviour
     {
         GroundDetection.OnLand -= OnLandGround;
         GroundDetection.OnLeaveGround -= OnLeaveSurface;
+
         WallDetection.OnWallEncounter -= OnWallEncounter;
         WallDetection.OnLeaveWall -= OnLeaveSurface;
+
+        ControlParameters.OnUpdatedParam -= UpdateParameters;
     }
 
     public void UpdateHorizontalSpeed(float speedRatio)
@@ -136,4 +140,12 @@ public class MoveManager : MonoBehaviour
         jump_count = 1;
         isJumping = false;
     }
+
+    private void UpdateParameters()
+    {
+        jump_impulsion_speed = ControlParameters.Instance.JumpImpulsionSpeed;
+        max_horizontal_speed = ControlParameters.Instance.MaxHorizontalSpeed;
+        coyoteTimeDoubleJump = ControlParameters.Instance.CoyoteTimeDoubleJump;
+    }
+
 }

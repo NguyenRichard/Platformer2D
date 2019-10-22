@@ -13,8 +13,7 @@ public class PhysicsHandler : MonoBehaviour
     private Vector2 speed = Vector2.zero;
     [SerializeField]
     private Vector2 acceleration = Vector2.zero;
-    [SerializeField]
-    private float descendingGravityModifier = 2f;
+    private float descendingGravityModifier;
 
     public List<Vector2> environmentAccelerationModifiers;
     public List<Vector2> environmentSpeedModifiers;
@@ -37,6 +36,17 @@ public class PhysicsHandler : MonoBehaviour
         _groundDetection = GetComponentInChildren<GroundDetection>();
         Debug.Assert(_collisionHandler != null);
         Debug.Assert(_groundDetection != null);
+        UpdateParameters();
+    }
+
+    private void OnEnable()
+    {
+        ControlParameters.OnUpdatedParam += UpdateParameters;
+    }
+
+    private void OnDisable()
+    {
+        ControlParameters.OnUpdatedParam -= UpdateParameters;
     }
 
     void Update()
@@ -69,5 +79,11 @@ public class PhysicsHandler : MonoBehaviour
         Vector2 position = transform.position;
         position += new Vector2(horizontalTrajectory, verticalTrajectory);
         transform.position = position;
+    }
+
+    private void UpdateParameters()
+    {
+        descendingGravityModifier = ControlParameters.Instance.DescendingGravityModifier;
+        Debug.Log(descendingGravityModifier);
     }
 }

@@ -10,8 +10,8 @@ public class CollisionHandler : MonoBehaviour
     private LayerMask _terrainMask;
     private LayerMask _platformAndTerrainMask;
     private LayerMask _platformMask;
-    [SerializeField]
-    private float epsilon = 0.01f;
+
+    private float _epsilon = 0.01f;
 
     private bool _isInPlatform = false;
 
@@ -24,8 +24,21 @@ public class CollisionHandler : MonoBehaviour
         _terrainMask = LayerMask.GetMask("Ground");
         _platformAndTerrainMask = LayerMask.GetMask("Ground", "Platform");
         _platformMask = LayerMask.GetMask("Platform");
+        UpdateParameters();
     }
-    
+
+
+    private void OnEnable()
+    {
+        ControlParameters.OnUpdatedParam += UpdateParameters;
+    }
+
+    private void OnDisable()
+    {
+        ControlParameters.OnUpdatedParam -= UpdateParameters;
+    }
+
+
     public bool CorrectHorizontalMovement(ref float horizontalTrajectory)
     {
         Vector2 position = transform.position;
@@ -35,7 +48,7 @@ public class CollisionHandler : MonoBehaviour
             Math.Abs(horizontalTrajectory), (_isInPlatform ? _terrainMask : _platformAndTerrainMask));
         if (boxCast.collider && boxCast.distance < Math.Abs(horizontalTrajectory))
         {
-            horizontalTrajectory = Math.Sign(horizontalTrajectory) * (boxCast.distance-epsilon);
+            horizontalTrajectory = Math.Sign(horizontalTrajectory) * (boxCast.distance-_epsilon);
             return true;
         }
         return false;
@@ -49,9 +62,15 @@ public class CollisionHandler : MonoBehaviour
             Math.Abs(verticalTrajectory), (verticalTrajectory > 0 ? _terrainMask : _platformAndTerrainMask));
         if (boxCast.collider && boxCast.distance < Math.Abs(verticalTrajectory) && (!_isInPlatform))
         {
-            verticalTrajectory = Math.Sign(verticalTrajectory) * (boxCast.distance-epsilon);
+            verticalTrajectory = Math.Sign(verticalTrajectory) * (boxCast.distance-_epsilon);
             return true;
         }
         return false;
+    }
+
+
+    private void UpdateParameters()
+    {
+        _epsilon = ControlParameters.Instance.CollisionEpsilon;
     }
 }

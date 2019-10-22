@@ -61,6 +61,7 @@ public class MoveAnimationManager : MonoBehaviour
 
     private void OnLandGround()
     {
+        // anim.SetTrigger("land");
         isGrounded = true;
     }
 
@@ -102,9 +103,18 @@ public class MoveAnimationManager : MonoBehaviour
 
     private void JumpEffect()
     {
-        anim.SetTrigger("jump");
+        //  anim.SetTrigger("jump");
+        StartCoroutine(Squish());
         var jumpParticles = Instantiate(jumpParticlePrefab, transform.position - new Vector3(0,-playerCollider.size.y/2), transform.rotation);
         jumpParticles.transform.localScale = new Vector2(0.8f, 0.8f);
     }
 
+    IEnumerator Squish()
+    {
+        anim.speed = 2;
+        anim.Play("Squish");
+        yield return new WaitForSeconds(0.2f);
+        anim.Play("Idle");
+
+    }
 }

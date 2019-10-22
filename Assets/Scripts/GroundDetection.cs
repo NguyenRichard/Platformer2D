@@ -25,12 +25,22 @@ public class GroundDetection : MonoBehaviour
     {
         var playerCollider = GetComponentInParent<BoxCollider2D>();
         var boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
-        _height = ControlParameters.Instance.GroundDetection_height;
-        _epsilonWidth = ControlParameters.Instance.GroundDetection_epsilonWidth;
         boxCollider2D.size = new Vector2(playerCollider.size.x-_epsilonWidth, _height);
         boxCollider2D.offset = new Vector2(0, -playerCollider.size.y/2-_epsilonWidth/2);
         boxCollider2D.isTrigger = true;
 
+        UpdateParameters();
+
+    }
+
+    private void OnEnable()
+    {
+        ControlParameters.OnUpdatedParam += UpdateParameters;
+    }
+
+    private void OnDisable()
+    {
+        ControlParameters.OnUpdatedParam -= UpdateParameters;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -43,6 +53,12 @@ public class GroundDetection : MonoBehaviour
     {
         isGrounded = false;
         OnLeaveGround?.Invoke();
+    }
+
+    private void UpdateParameters()
+    {
+        _epsilonWidth = ControlParameters.Instance.GroundDetection_epsilonWidth;
+        _height = ControlParameters.Instance.GroundDetection_height;
     }
 
 }

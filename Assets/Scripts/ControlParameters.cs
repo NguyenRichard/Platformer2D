@@ -8,6 +8,9 @@ public class ControlParameters : MonoBehaviour
 {
     private static ControlParameters instance;
 
+    public delegate void ParametersUpdate();
+    public static event ParametersUpdate OnUpdatedParam;
+
     public static ControlParameters Instance
     {
         get { return instance; }
@@ -89,5 +92,30 @@ public class ControlParameters : MonoBehaviour
         {
             return coyoteTimeDoubleJump;
         }
+    }
+
+    [SerializeField]
+    private float collisionEpsilon;
+    public float CollisionEpsilon
+    {
+        get
+        {
+            return collisionEpsilon;
+        }
+    }
+
+    [SerializeField]
+    private float descendingGravityModifier;
+    public float DescendingGravityModifier
+    {
+        get
+        {
+            return descendingGravityModifier;
+        }
+    }
+
+    private void OnValidate()
+    {
+        OnUpdatedParam?.Invoke();
     }
 }
