@@ -1258,6 +1258,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8de544f290850943b7c6b5e326813c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noJumpColor: {r: 0.5647059, g: 0.20392157, b: 0.5411765, a: 1}
+  oneJumpColor: {r: 0.5019608, g: 0.15294118, b: 0.43137255, a: 1}
+  doubleJumpColor: {r: 0.4245283, g: 0.0760947, b: 0.26272294, a: 1}
+  sprite: {fileID: 580792696}
 --- !u!114 &508030576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1523,6 +1527,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd8e48f4afcbee741b65d36c76e06965, type: 3}
+--- !u!212 &580792696 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7249980272968959509, guid: 9b938179b7e518148b3e350cc6ae01af,
+    type: 3}
+  m_PrefabInstance: {fileID: 7249980271295111165}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &584275422
 PrefabInstance:
   m_ObjectHideFlags: 0

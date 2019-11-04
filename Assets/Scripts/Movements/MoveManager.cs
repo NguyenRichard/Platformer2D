@@ -31,7 +31,40 @@ public class MoveManager : MonoBehaviour
         set { this.isJumping = value; }
     }
 
+    [SerializeField]
+    private Color noJumpColor;
+
+    [SerializeField]
+    private Color oneJumpColor;
+
+    [SerializeField]
+    private Color doubleJumpColor;
+
+    [SerializeField]
+    private SpriteRenderer sprite;
+
     private int jump_count = 0;
+    public int Jump_count
+    {
+        get { return this.jump_count; }
+        set
+        {
+            switch (value)
+            {
+                case 0:
+                    sprite.color = doubleJumpColor;
+                    break;
+                case 1:
+                    sprite.color = oneJumpColor;
+                    break;
+                case 2:
+                    sprite.color = noJumpColor;
+                    break;
+            }
+
+            this.jump_count = value;
+        }
+    }
 
     private Vector2 speed = new Vector2(0,0);
     public Vector2 Speed
@@ -97,7 +130,7 @@ public class MoveManager : MonoBehaviour
         }
         speed.y = jump_impulsion_speed;
         _physicsHandler.VerticalSpeed = speed.y;
-        jump_count++;
+        Jump_count++;
         isJumping = true;
         OnJump?.Invoke();
     }
@@ -113,11 +146,11 @@ public class MoveManager : MonoBehaviour
 
     private bool CanJump()
     {
-        return jump_count >= 2;
+        return Jump_count >= 2;
     }
 
     private void OnLandGround() {
-        jump_count = 0;
+        Jump_count = 0;
         isJumping = false;
     }
 
@@ -135,7 +168,7 @@ public class MoveManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         if (!isJumping)
         {
-            jump_count = 1;
+            Jump_count = 1;
         }
     }
 
@@ -145,7 +178,7 @@ public class MoveManager : MonoBehaviour
         {
             return;
         }
-        jump_count = 1;
+        Jump_count = 1;
         isJumping = false;
     }
 
@@ -153,8 +186,7 @@ public class MoveManager : MonoBehaviour
     {
         jump_impulsion_speed = ControlParameters.Instance.JumpImpulsionSpeed;
         max_horizontal_speed = ControlParameters.Instance.MaxHorizontalSpeed;
-        coyoteTimeDoubleJump = ControlParameters.Instance.CoyoteTimeDoubleJump;
-        Debug.Log(max_horizontal_speed);
+        coyoteTimeDoubleJump = ControlParameters.Instance.CoyoteTimeDoubleJump; 
     }
 
 }
