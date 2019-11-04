@@ -21,13 +21,15 @@ public class GroundDetection : MonoBehaviour
     public static event LeaveGroundAction OnLeaveGround;
 
 
+    private BoxCollider2D playerCollider;
+    private BoxCollider2D boxCollider2D;
+
+
+
     private void Awake()
     {
-        var playerCollider = GetComponentInParent<BoxCollider2D>();
-        var boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
-        boxCollider2D.size = new Vector2(playerCollider.size.x-_epsilonWidth, _height);
-        boxCollider2D.offset = new Vector2(0, -playerCollider.size.y/2-_epsilonWidth/2);
-        boxCollider2D.isTrigger = true;
+        playerCollider = GetComponentInParent<BoxCollider2D>();
+        boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
 
         UpdateParameters();
 
@@ -59,6 +61,10 @@ public class GroundDetection : MonoBehaviour
     {
         _epsilonWidth = ControlParameters.Instance.GroundDetection_epsilonWidth;
         _height = ControlParameters.Instance.GroundDetection_height;
+
+        boxCollider2D.size = new Vector2(playerCollider.size.x - _epsilonWidth, _height);
+        boxCollider2D.offset = new Vector2(0, -playerCollider.size.y / 2 - _epsilonWidth / 2);
+        boxCollider2D.isTrigger = true;
     }
 
 }

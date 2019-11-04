@@ -14,13 +14,14 @@ public class WallDetection : MonoBehaviour
     public delegate void LeaveWallGroundAction();
     public static event LeaveWallGroundAction OnLeaveWall;
 
+    private BoxCollider2D playerCollider;
+    private BoxCollider2D boxCollider2D;
+
 
     private void Awake()
     {
-        var playerCollider = GetComponentInParent<BoxCollider2D>();
-        var boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
-        boxCollider2D.size = new Vector2(playerCollider.size.x + 2*_height + 2*_epsilonWidth, playerCollider.size.y - _epsilonWidth);
-        boxCollider2D.isTrigger = true;
+        playerCollider = GetComponentInParent<BoxCollider2D>();
+        boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
 
         UpdateParameters();
     }
@@ -50,5 +51,7 @@ public class WallDetection : MonoBehaviour
     {
         _epsilonWidth = ControlParameters.Instance.WallDetection_epsilonWidth;
         _height = ControlParameters.Instance.WallDetection_height;
+        boxCollider2D.size = new Vector2(playerCollider.size.x + 2 * _height + 2 * _epsilonWidth, playerCollider.size.y - _epsilonWidth);
+        boxCollider2D.isTrigger = true;
     }
 }

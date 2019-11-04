@@ -35,6 +35,11 @@ public class ControlParameters : MonoBehaviour
         {
             return groundDetection_height;
         }
+        set
+        {
+            groundDetection_height = value;
+            OnUpdatedParam?.Invoke();
+        }
     }
     [SerializeField]
     private float groundDetection_epsilonWidth;
@@ -43,6 +48,11 @@ public class ControlParameters : MonoBehaviour
         get
         {
             return groundDetection_epsilonWidth;
+        }
+        set
+        {
+            groundDetection_epsilonWidth = value;
+            OnUpdatedParam?.Invoke();
         }
     }
     [SerializeField]
@@ -53,6 +63,11 @@ public class ControlParameters : MonoBehaviour
         {
             return wallDetection_height;
         }
+        set
+        {
+            wallDetection_height = value;
+            OnUpdatedParam?.Invoke();
+        }
     }
     [SerializeField]
     private float wallDetection_epsilonWidth;
@@ -61,6 +76,11 @@ public class ControlParameters : MonoBehaviour
         get
         {
             return wallDetection_epsilonWidth;
+        }
+        set
+        {
+            wallDetection_epsilonWidth = value;
+            OnUpdatedParam?.Invoke();
         }
     }
 
@@ -72,6 +92,11 @@ public class ControlParameters : MonoBehaviour
         {
             return jumpImpulsionSpeed;
         }
+        set
+        {
+            jumpImpulsionSpeed = value;
+            OnUpdatedParam?.Invoke();
+        }
     }
 
     [SerializeField]
@@ -81,6 +106,11 @@ public class ControlParameters : MonoBehaviour
         get
         {
             return maxHorizontalSpeed;
+        }
+        set
+        {
+            maxHorizontalSpeed = value;
+            OnUpdatedParam?.Invoke();
         }
     }
 
@@ -92,6 +122,11 @@ public class ControlParameters : MonoBehaviour
         {
             return coyoteTimeDoubleJump;
         }
+        set
+        {
+            coyoteTimeDoubleJump = value;
+            OnUpdatedParam?.Invoke();
+        }
     }
 
     [SerializeField]
@@ -102,6 +137,11 @@ public class ControlParameters : MonoBehaviour
         {
             return collisionEpsilon;
         }
+        set
+        {
+            collisionEpsilon = value;
+            OnUpdatedParam?.Invoke();
+        }
     }
 
     [SerializeField]
@@ -111,6 +151,11 @@ public class ControlParameters : MonoBehaviour
         get
         {
             return descendingGravityModifier;
+        }
+        set
+        {
+            descendingGravityModifier = value;
+            OnUpdatedParam?.Invoke();
         }
     }
 

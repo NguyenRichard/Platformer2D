@@ -84,6 +84,5 @@ public class PhysicsHandler : MonoBehaviour
     private void UpdateParameters()
     {
         descendingGravityModifier = ControlParameters.Instance.DescendingGravityModifier;
-        Debug.Log(descendingGravityModifier);
     }
 }

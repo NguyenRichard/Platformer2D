@@ -6,7 +6,8 @@ public class InputController : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
-
+    [SerializeField]
+    private GameObject panel;
     private MoveManager moveManager;
     
     // Start is called before the first frame update
@@ -28,6 +29,17 @@ public class InputController : MonoBehaviour
         else if (Input.GetButtonUp("Jump"))
         {
             moveManager.CancelJump();
+        }
+        else if (Input.GetButtonDown("Parameters"))
+        {
+            if (panel.activeInHierarchy)
+            {
+                panel.SetActive(false);
+            }
+            else
+            {
+                panel.SetActive(true);
+            }
         }
     }
 }

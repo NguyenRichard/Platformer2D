@@ -123,6 +123,10 @@ public class MoveManager : MonoBehaviour
 
     private void OnLeaveSurface()
     {
+        if (groundDetector.IsGrounded)
+        {
+            return;
+        }
         StartCoroutine(DoubleJumPCoyoteTime());
     }
 
@@ -137,6 +141,10 @@ public class MoveManager : MonoBehaviour
 
     private void OnWallEncounter()
     {
+        if (groundDetector.IsGrounded)
+        {
+            return;
+        }
         jump_count = 1;
         isJumping = false;
     }
@@ -146,6 +154,7 @@ public class MoveManager : MonoBehaviour
         jump_impulsion_speed = ControlParameters.Instance.JumpImpulsionSpeed;
         max_horizontal_speed = ControlParameters.Instance.MaxHorizontalSpeed;
         coyoteTimeDoubleJump = ControlParameters.Instance.CoyoteTimeDoubleJump;
+        Debug.Log(max_horizontal_speed);
     }
 
 }
