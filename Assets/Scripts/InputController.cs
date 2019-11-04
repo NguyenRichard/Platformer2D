@@ -30,7 +30,8 @@ public class InputController : MonoBehaviour
         {
             moveManager.CancelJump();
         }
-        else if (Input.GetButtonDown("Parameters"))
+        
+        if (Input.GetButtonDown("Parameters"))
         {
             if (panel.activeInHierarchy)
             {
@@ -40,6 +41,11 @@ public class InputController : MonoBehaviour
             {
                 panel.SetActive(true);
             }
+        }
+
+        if (Input.GetButtonDown("Reset"))
+        {
+            player.SetActive(false);
         }
     }
 }
