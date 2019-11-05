@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,8 @@ public class LevelManager : MonoBehaviour
     private Vector2 endPosition;
     [SerializeField]
     private Sprite flag;
+    [SerializeField]
+    private GameObject victoryParticlesPrefab;
 
     private Transform _player;
     
@@ -30,6 +33,19 @@ public class LevelManager : MonoBehaviour
         boxCollider2D.isTrigger = true;
         flagObject.AddComponent<Flag>();
         flagObject.layer = gameObject.layer;
+
+
+    }
+
+    private void OnEnable()
+    {
+        
+        Flag.OnVictory += LoadNextScene;
+    }
+
+    private void OnDisable()
+    {
+        Flag.OnVictory -= LoadNextScene;        
     }
 
     private void Update()
@@ -43,10 +59,19 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextScene()
     {
+        StartCoroutine(LaunchVictory());
+    }
+
+    IEnumerator LaunchVictory()
+    {
+        Debug.Assert(victoryParticlesPrefab, "You must add a Victory prefab");
+        var victoryParticlesInstance = Instantiate(victoryParticlesPrefab, transform);
+        victoryParticlesInstance.transform.position = endPosition;
+        yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
     }
 
-    private void OnDrawGizmosSelected()
+        private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawCube(endPosition, new Vector3(0.25f,0.25f,0.25f));
