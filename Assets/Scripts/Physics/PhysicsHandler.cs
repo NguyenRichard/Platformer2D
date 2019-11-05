@@ -59,13 +59,13 @@ public class PhysicsHandler : MonoBehaviour
                 acceleration += environmentAccelerationModifiers[i];
             }
         }
-        speed += acceleration * Time.fixedDeltaTime;
+        speed += acceleration * Time.deltaTime;
         for (int i = 0; i < environmentSpeedModifiers.Count; i++)
         {
             speed += environmentSpeedModifiers[i];
         }
-        float horizontalTrajectory = HorizontalSpeed*Time.fixedDeltaTime;
-        float verticalTrajectory = VerticalSpeed*Time.fixedDeltaTime;
+        float horizontalTrajectory = HorizontalSpeed*Time.deltaTime;
+        float verticalTrajectory = VerticalSpeed*Time.deltaTime;
         if (_collisionHandler.CorrectHorizontalMovement(ref horizontalTrajectory))
         {
             acceleration.x = 0;
